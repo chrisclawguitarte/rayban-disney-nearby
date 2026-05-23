@@ -471,7 +471,7 @@
     dom.mode.textContent = modeLabel();
     dom.fix.textContent = fixLabel();
     dom.updated.textContent = updatedLabel();
-    dom.source.textContent = "Source: Queue-Times.com unofficial public API";
+    dom.source.textContent = "Queue-Times.com public API • unofficial";
     dom.gpsControl.textContent = state.locationWatchId !== null ? "GPS ON" : "GPS";
     dom.syncControl.textContent = state.loading ? "..." : "DATA";
     dom.parkControl.textContent = parkLabel();
@@ -495,7 +495,7 @@
   }
 
   function renderRideList(rides) {
-    var visible = rides.slice(0, 6);
+    var visible = rides.slice(0, 5);
     if (!visible.length) {
       dom.list.innerHTML = '<div class="empty-state">No matching attractions</div>';
       return;
@@ -592,6 +592,8 @@
 
   function compactName(name) {
     return String(name || "")
+      .replace(/^Pirate's Lair on Tom Sawyer Island$/i, "Pirate's Lair")
+      .replace(/^Frontierland\s+/i, "")
       .replace(/\s+-\s+.*$/, "")
       .replace(/\s+inspired by.*$/i, "")
       .replace(/^Star Wars:\s*/i, "")

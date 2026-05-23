@@ -150,15 +150,19 @@ assert(css.indexOf("width: 600px") !== -1 && css.indexOf("height: 600px") !== -1
 assert(css.indexOf("overflow: hidden") !== -1, "scrolling is disabled");
 assert(css.indexOf("--bg: #000000") !== -1, "black page canvas is defined");
 assert(css.indexOf("--focus: #44d7ff") !== -1, "visible cyan focus ring is defined");
-assert(css.indexOf("min-height: 64px") !== -1, "controls have stable large targets");
+assert(css.indexOf("padding: 24px 64px 22px") !== -1, "layout uses a wide display safe area");
+assert(css.indexOf("grid-template-rows: repeat(5, 1fr)") !== -1, "ride list uses five roomy rows");
+assert(css.indexOf("min-width: 0") !== -1, "grid and flex children can shrink instead of clipping the right edge");
+assert(css.indexOf("min-height: 62px") !== -1, "controls have stable large targets");
 assert(css.indexOf("letter-spacing: 0") !== -1, "letter spacing is not negative");
-assert(css.indexOf("font-size: 34px") !== -1, "summary is the primary readout");
+assert(css.indexOf("font-size: 28px") !== -1, "summary is the primary readout");
 
 assert(js.indexOf("navigator.geolocation.watchPosition") !== -1, "geolocation watch is used");
 assert(js.indexOf("event.preventDefault()") !== -1, "D-pad key handling prevents default browser behavior");
 assert(js.indexOf("localStorage") !== -1, "lightweight localStorage state is present");
 assert(js.indexOf("serviceWorker") !== -1, "service worker registration is present");
 assert(js.indexOf('fetch("./waits.json?ts="') !== -1, "app fetches same-origin wait data");
+assert(js.indexOf("rides.slice(0, 5)") !== -1, "app renders a readable five-ride list");
 assert(js.indexOf("queue-times.com/parks") === -1, "app does not directly fetch Queue-Times from the browser");
 assert(js.indexOf("window.open") === -1, "app does not use popup navigation");
 assert(js.indexOf("window.top.location") === -1, "app does not attempt blocked top-level navigation");
@@ -191,7 +195,7 @@ assert(manifest.icons && manifest.icons[0] && manifest.icons[0].src === "favicon
 assert(manifest.background_color === "#000000", "manifest background is black");
 assert(manifest.display === "standalone", "manifest uses standalone display");
 
-assert(serviceWorker.indexOf("rayban-disney-nearby-v1") !== -1, "service worker cache name is current");
+assert(serviceWorker.indexOf("rayban-disney-nearby-v2") !== -1, "service worker cache name is current");
 ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./favicon.png"].forEach(function (asset) {
   assert(serviceWorker.indexOf(asset) !== -1, "service worker caches " + asset);
 });

@@ -1,4 +1,4 @@
-var CACHE_NAME = "rayban-disney-nearby-v1";
+var CACHE_NAME = "rayban-disney-nearby-v2";
 var STATIC_ASSETS = [
   "./",
   "./index.html",
