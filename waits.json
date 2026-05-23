@@ -1,0 +1,881 @@
+{
+  "source": "Queue-Times.com public API",
+  "source_url": "https://queue-times.com/en-US/pages/api",
+  "unofficial": true,
+  "generated_at": "2026-05-23T16:39:49.295Z",
+  "latest_update": "2026-05-23T16:35:35.000Z",
+  "parks": [
+    {
+      "key": "disneyland",
+      "id": 16,
+      "name": "Disneyland"
+    },
+    {
+      "key": "dca",
+      "id": 17,
+      "name": "Disney California Adventure"
+    }
+  ],
+  "rides": [
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Avengers Campus",
+      "id": 329,
+      "name": "Guardians of the Galaxy - Mission: BREAKOUT!",
+      "is_open": true,
+      "wait_time": 55,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Avengers Campus",
+      "id": 8843,
+      "name": "WEB SLINGERS: A Spider-Man Adventure",
+      "is_open": true,
+      "wait_time": 40,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Avengers Campus",
+      "id": 10907,
+      "name": "WEB SLINGERS: A Spider-Man Adventure Single Rider",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Cars Land",
+      "id": 13961,
+      "name": "Luigi's Rollickin' Roadsters",
+      "is_open": true,
+      "wait_time": 30,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Cars Land",
+      "id": 315,
+      "name": "Mater's Junkyard Jamboree",
+      "is_open": true,
+      "wait_time": 15,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Cars Land",
+      "id": 295,
+      "name": "Radiator Springs Racers",
+      "is_open": true,
+      "wait_time": 70,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Cars Land",
+      "id": 10904,
+      "name": "Radiator Springs Racers Single Rider",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Grizzly Peak",
+      "id": 302,
+      "name": "Grizzly River Run",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Grizzly Peak",
+      "id": 293,
+      "name": "Redwood Creek Challenge Trail",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Grizzly Peak",
+      "id": 312,
+      "name": "Soarin' Over California",
+      "is_open": true,
+      "wait_time": 10,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Hollywood Land",
+      "id": 321,
+      "name": "Animation Academy",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Hollywood Land",
+      "id": 6440,
+      "name": "Mickey's PhilharMagic",
+      "is_open": true,
+      "wait_time": 10,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Hollywood Land",
+      "id": 291,
+      "name": "Monsters, Inc. Mike & Sulley to the Rescue!",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Hollywood Land",
+      "id": 868,
+      "name": "Sorcerer's Workshop",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Hollywood Land",
+      "id": 294,
+      "name": "Turtle Talk with Crush",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Paradise Gardens Park",
+      "id": 298,
+      "name": "Golden Zephyr",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Paradise Gardens Park",
+      "id": 319,
+      "name": "Goofy's Sky School",
+      "is_open": true,
+      "wait_time": 25,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Paradise Gardens Park",
+      "id": 301,
+      "name": "Silly Symphony Swings",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Paradise Gardens Park",
+      "id": 10905,
+      "name": "Silly Symphony Swings Single Rider",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Paradise Gardens Park",
+      "id": 316,
+      "name": "The Little Mermaid - Ariel's Undersea Adventure",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Paradise Gardens Park",
+      "id": 14742,
+      "name": "World of Color Happiness!",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 13960,
+      "name": "Games of Pixar Pier",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 322,
+      "name": "Incredicoaster",
+      "is_open": true,
+      "wait_time": 25,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 10906,
+      "name": "Incredicoaster Single Rider",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 6643,
+      "name": "Inside Out Emotional Whirlwind",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 310,
+      "name": "Jessie's Critter Carousel",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 300,
+      "name": "Jumpin' Jellyfish",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 311,
+      "name": "Pixar Pal-A-Round - Swinging",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 5557,
+      "name": "Pixar Pal-A-Round – Non-Swinging",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "Pixar Pier",
+      "id": 313,
+      "name": "Toy Story Midway Mania!",
+      "is_open": true,
+      "wait_time": 35,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "dca",
+      "park": "Disney California Adventure",
+      "land": "San Fransokyo Square",
+      "id": 13959,
+      "name": "The Bakery Tour",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Adventureland",
+      "id": 12428,
+      "name": "Adventureland Treehouse inspired by Walt Disney’s Swiss Family Robinson",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Adventureland",
+      "id": 326,
+      "name": "Indiana Jones™ Adventure",
+      "is_open": true,
+      "wait_time": 45,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Adventureland",
+      "id": 296,
+      "name": "Jungle Cruise",
+      "is_open": true,
+      "wait_time": 35,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Adventureland",
+      "id": 288,
+      "name": "Walt Disney's Enchanted Tiki Room",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Bayou Country",
+      "id": 304,
+      "name": "Davy Crockett's Explorer Canoes",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Bayou Country",
+      "id": 306,
+      "name": "The Many Adventures of Winnie the Pooh",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Bayou Country",
+      "id": 14168,
+      "name": "Tiana's Bayou Adventure",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Bayou Country",
+      "id": 14326,
+      "name": "Tiana's Bayou Adventure Single Rider",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 307,
+      "name": "\"it's a small world\"",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 285,
+      "name": "Alice in Wonderland",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 16254,
+      "name": "Bluey’s Best Day Ever! at Fantasyland Theatre",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 303,
+      "name": "Casey Jr. Circus Train",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 275,
+      "name": "Dumbo the Flying Elephant",
+      "is_open": true,
+      "wait_time": 25,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 277,
+      "name": "King Arthur Carrousel",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 278,
+      "name": "Mad Tea Party",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 279,
+      "name": "Matterhorn Bobsleds",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 6711,
+      "name": "Meet Disney Princesses at Royal Hall",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 280,
+      "name": "Mr. Toad's Wild Ride",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 281,
+      "name": "Peter Pan's Flight",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 282,
+      "name": "Pinocchio's Daring Journey",
+      "is_open": true,
+      "wait_time": 10,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 687,
+      "name": "Sleeping Beauty Castle Walkthrough",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 283,
+      "name": "Snow White's Enchanted Wish",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Fantasyland",
+      "id": 305,
+      "name": "Storybook Land Canal Boats",
+      "is_open": true,
+      "wait_time": 10,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Frontierland",
+      "id": 323,
+      "name": "Big Thunder Mountain Railroad",
+      "is_open": true,
+      "wait_time": 30,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Frontierland",
+      "id": 679,
+      "name": "Frontierland Shootin' Exposition",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Frontierland",
+      "id": 456,
+      "name": "Mark Twain Riverboat",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Frontierland",
+      "id": 331,
+      "name": "Pirate's Lair on Tom Sawyer Island",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Frontierland",
+      "id": 328,
+      "name": "Sailing Ship Columbia",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 674,
+      "name": "Disneyland Railroad",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 690,
+      "name": "Great Moments with Mr. Lincoln",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 686,
+      "name": "Main Street Cinema",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 691,
+      "name": "Main Street Vehicles",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 14915,
+      "name": "Opera House - Walt Disney - A Magical Life",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 695,
+      "name": "The Disney Gallery",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Main Street U.S.A",
+      "id": 14923,
+      "name": "Walt Disney - A Magical Life",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 324,
+      "name": "Chip 'n' Dale's GADGETcoaster",
+      "is_open": true,
+      "wait_time": 10,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 13814,
+      "name": "Donald's Duck Pond",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 11980,
+      "name": "Goofy's How-to-Play Yard",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 11526,
+      "name": "Mickey & Minnie's Runaway Railway",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 709,
+      "name": "Mickey's House and Meet Mickey Mouse",
+      "is_open": true,
+      "wait_time": 10,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 327,
+      "name": "Mickey's House and Meet Mickey Mouse",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 684,
+      "name": "Minnie's House",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Mickey's Toontown",
+      "id": 332,
+      "name": "Roger Rabbit's Car Toon Spin",
+      "is_open": true,
+      "wait_time": 15,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "New Orleans Square",
+      "id": 13958,
+      "name": "Haunted Mansion",
+      "is_open": true,
+      "wait_time": 13,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "New Orleans Square",
+      "id": 289,
+      "name": "Pirates of the Caribbean",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Star Wars: Galaxy's Edge",
+      "id": 6339,
+      "name": "Millennium Falcon: Smugglers Run",
+      "is_open": true,
+      "wait_time": 25,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Star Wars: Galaxy's Edge",
+      "id": 10903,
+      "name": "Millennium Falcon: Smugglers Run Single Rider",
+      "is_open": true,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Star Wars: Galaxy's Edge",
+      "id": 6340,
+      "name": "Star Wars: Rise of the Resistance",
+      "is_open": true,
+      "wait_time": 45,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 287,
+      "name": "Astro Orbitor",
+      "is_open": true,
+      "wait_time": 30,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 317,
+      "name": "Autopia",
+      "is_open": true,
+      "wait_time": 20,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 273,
+      "name": "Buzz Lightyear Astro Blasters",
+      "is_open": false,
+      "wait_time": 0,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 274,
+      "name": "Disneyland Monorail",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 276,
+      "name": "Finding Nemo Submarine Voyage",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 284,
+      "name": "Hyperspace Mountain",
+      "is_open": true,
+      "wait_time": 60,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    },
+    {
+      "park_key": "disneyland",
+      "park": "Disneyland",
+      "land": "Tomorrowland",
+      "id": 286,
+      "name": "Star Tours - The Adventures Continue",
+      "is_open": true,
+      "wait_time": 5,
+      "last_updated": "2026-05-23T16:35:35.000Z"
+    }
+  ]
+}

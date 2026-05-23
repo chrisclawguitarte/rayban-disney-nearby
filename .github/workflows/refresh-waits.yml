@@ -1,0 +1,37 @@
+name: Refresh Wait Times
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/5 15-23 * * *"
+    - cron: "*/5 0-7 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Refresh Queue-Times snapshot
+        run: node scripts/refresh-waits.js
+
+      - name: Commit updated waits
+        run: |
+          if git diff --quiet -- waits.json; then
+            echo "No wait-time changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add waits.json
+          git commit -m "Refresh wait times"
+          git push

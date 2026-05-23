@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=600, height=600, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <title>Disney Nearby</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell" aria-label="Disney Nearby wait times">
+      <section class="app-grid">
+        <header class="top-bar">
+          <div class="status-chip" id="app-status">READY</div>
+          <div class="clock-chip" id="clock">--:--</div>
+        </header>
+
+        <section class="summary-panel">
+          <div class="summary-kicker" id="mode-label">NEAREST OPEN</div>
+          <div class="summary-title" id="summary-title">GPS READY</div>
+          <div class="summary-meta">
+            <span id="fix-label">NO FIX</span>
+            <span id="updated-label">WAIT DATA LOADING</span>
+          </div>
+          <div class="source-line" id="source-label">Source: Queue-Times.com unofficial public API</div>
+        </section>
+
+        <section class="ride-list" id="ride-list" aria-live="polite"></section>
+
+        <footer class="control-row">
+          <button class="focusable control" type="button" data-action="start-gps" data-preferred-focus>
+            <span class="control-main" id="gps-control-label">GPS</span>
+            <span class="control-sub">FIX</span>
+          </button>
+          <button class="focusable control" type="button" data-action="refresh">
+            <span class="control-main">SYNC</span>
+            <span class="control-sub" id="sync-control-label">DATA</span>
+          </button>
+          <button class="focusable control" type="button" data-action="cycle-park">
+            <span class="control-main" id="park-control-label">BOTH</span>
+            <span class="control-sub">PARK</span>
+          </button>
+          <button class="focusable control" type="button" data-action="toggle-open">
+            <span class="control-main" id="open-control-label">OPEN</span>
+            <span class="control-sub">MODE</span>
+          </button>
+        </footer>
+      </section>
+    </main>
+    <script src="app.js"></script>
+  </body>
+</html>
