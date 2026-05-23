@@ -3,15 +3,23 @@ name: Refresh Wait Times
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 15-23 * * *"
-    - cron: "*/5 0-7 * * *"
+    - cron: "*/5 * * * *"
 
 permissions:
-  contents: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: disney-nearby-pages
+  cancel-in-progress: true
 
 jobs:
   refresh:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -24,14 +32,17 @@ jobs:
       - name: Refresh Queue-Times snapshot
         run: node scripts/refresh-waits.js
 
-      - name: Commit updated waits
-        run: |
-          if git diff --quiet -- waits.json; then
-            echo "No wait-time changes."
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add waits.json
-          git commit -m "Refresh wait times"
-          git push
+      - name: Validate app bundle
+        run: node scripts/check.js
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload refreshed site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: .
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

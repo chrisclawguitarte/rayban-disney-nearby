@@ -53,6 +53,7 @@ var css = read("styles.css");
 var js = read("app.js");
 var refresh = read("scripts/refresh-waits.js");
 var serviceWorker = read("service-worker.js");
+var workflow = read(".github/workflows/refresh-waits.yml");
 var manifest = JSON.parse(read("manifest.webmanifest"));
 var pkg = JSON.parse(read("package.json"));
 var waits = JSON.parse(read("waits.json"));
@@ -180,6 +181,10 @@ if (api) {
 
 assert(refresh.indexOf("https://queue-times.com/parks/") !== -1, "server-side refresh uses Queue-Times parks endpoint");
 assert(refresh.indexOf("waits.json") !== -1, "refresh script writes waits.json");
+assert(workflow.indexOf('cron: "*/5 * * * *"') !== -1, "GitHub runner refresh is scheduled every five minutes");
+assert(workflow.indexOf("node scripts/refresh-waits.js") !== -1, "GitHub runner regenerates waits.json");
+assert(workflow.indexOf("node scripts/check.js") !== -1, "GitHub runner validates the app bundle");
+assert(workflow.indexOf("actions/deploy-pages@v4") !== -1, "GitHub runner deploys the refreshed Pages artifact");
 
 assert(manifest.name === "Disney Nearby", "manifest name matches app");
 assert(manifest.icons && manifest.icons[0] && manifest.icons[0].src === "favicon.png", "manifest references favicon.png");

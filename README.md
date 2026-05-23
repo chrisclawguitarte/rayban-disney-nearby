@@ -13,7 +13,7 @@ The wait data is unofficial Queue-Times.com public API data and can differ from 
 
 ## Why There Is A Data Snapshot
 
-Queue-Times serves the data used by the existing OpenClaw Disneyland skill, but its park endpoints do not include browser CORS headers. The glasses app fetches same-origin `waits.json` instead. `scripts/refresh-waits.js` generates that file server-side, and `.github/workflows/refresh-waits.yml` can refresh it on GitHub after deployment.
+Queue-Times serves the data used by the existing OpenClaw Disneyland skill, but its park endpoints do not include browser CORS headers. The glasses app fetches same-origin `waits.json` instead. `scripts/refresh-waits.js` generates that file server-side, and `.github/workflows/refresh-waits.yml` refreshes it with GitHub-hosted runners every 5 minutes.
 
 ## Local Development
 
@@ -28,8 +28,8 @@ Open `http://localhost:8096/` with a 600x600 browser viewport. Arrow keys move f
 
 ## Deployment Notes
 
-The device needs a public HTTPS URL, so deploy this repo with GitHub Pages from the `main` branch root. After the repo is published and Pages is enabled, add it in:
+The device needs a public HTTPS URL, so deploy this repo with GitHub Pages using the included GitHub Actions workflow. After the repo is published and Pages is enabled, add it in:
 
 `Meta AI app > Display Glasses settings > App connections > Web apps`
 
-The scheduled refresh workflow runs every 5 minutes during typical Disneyland operating hours in Pacific time, expressed as UTC cron windows.
+The scheduled refresh workflow runs every 5 minutes. Each run regenerates `waits.json`, validates the app bundle, and deploys the refreshed static site to GitHub Pages without committing a new wait snapshot every time.
