@@ -2,6 +2,8 @@
 
 A fixed 600x600 Meta Ray-Ban Display web app for Disneyland Resort wait times sorted by your live GPS location in the park.
 
+Live app: `https://chrisclawguitarte.github.io/rayban-disney-nearby/`
+
 ## What It Shows
 
 - Nearby Disneyland and Disney California Adventure attractions sorted by distance from the glasses' paired phone GPS.
