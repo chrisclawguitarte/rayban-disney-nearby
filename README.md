@@ -8,7 +8,8 @@ Live app: `https://chrisclawguitarte.github.io/rayban-disney-nearby/`
 
 - Nearby Disneyland and Disney California Adventure attractions sorted by distance from the glasses' paired phone GPS.
 - Current wait, park, land, distance, and bearing for each visible attraction.
-- Filters for both parks, Disneyland only, DCA only, open attractions, low waits, headliners, and quick ride focuses for Rise, Radiator Springs Racers, Guardians, WEB SLINGERS, Space/Hyperspace Mountain, and Indiana Jones.
+- Filters for both parks, Disneyland only, DCA only, open attractions, rides-only, low waits, headliners, every resort land, and quick ride focuses for Rise, Radiator Springs Racers, Guardians, WEB SLINGERS, Space/Hyperspace Mountain, and Indiana Jones.
+- Single-rider wait rows are hidden from every filter so they do not appear as separate nearby attractions.
 - Queue-Times.com source attribution inside the app.
 
 The wait data is unofficial Queue-Times.com public API data and can differ from the Disneyland app. Attraction coordinates are an app-local approximate catalog with land-level fallbacks.

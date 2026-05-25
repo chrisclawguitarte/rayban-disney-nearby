@@ -164,6 +164,9 @@ assert(js.indexOf("localStorage") !== -1, "lightweight localStorage state is pre
 assert(js.indexOf("serviceWorker") !== -1, "service worker registration is present");
 assert(js.indexOf('fetch("./waits.json?ts="') !== -1, "app fetches same-origin wait data");
 assert(js.indexOf("HEADLINER_TERMS") !== -1, "quick headliner filter terms are present");
+assert(js.indexOf("LAND_FILTERS") !== -1, "land filters are present");
+assert(js.indexOf("NON_RIDE_TERMS") !== -1, "ride-only exclusions are present");
+assert(js.indexOf("isSingleRider") !== -1, "single-rider rows are globally hidden");
 assert(js.indexOf("cycleRideFilter") !== -1, "D-pad filter cycling is present");
 assert(js.indexOf("rides.slice(0, 5)") !== -1, "app renders a readable five-ride list");
 assert(js.indexOf("queue-times.com/parks") === -1, "app does not directly fetch Queue-Times from the browser");
@@ -178,15 +181,22 @@ if (api) {
     rides: [
       { park_key: "disneyland", park: "Disneyland", land: "New Orleans Square", id: 289, name: "Pirates of the Caribbean", is_open: true, wait_time: 25 },
       { park_key: "disneyland", park: "Disneyland", land: "Tomorrowland", id: 284, name: "Hyperspace Mountain", is_open: true, wait_time: 55 },
-      { park_key: "dca", park: "Disney California Adventure", land: "Cars Land", id: 295, name: "Radiator Springs Racers", is_open: true, wait_time: 65 }
+      { park_key: "dca", park: "Disney California Adventure", land: "Cars Land", id: 295, name: "Radiator Springs Racers", is_open: true, wait_time: 65 },
+      { park_key: "dca", park: "Disney California Adventure", land: "Cars Land", id: 10904, name: "Radiator Springs Racers Single Rider", is_open: true, wait_time: 0 },
+      { park_key: "dca", park: "Disney California Adventure", land: "Hollywood Land", id: 321, name: "Animation Academy", is_open: true, wait_time: 0 }
     ]
   };
   var sorted = api.getVisibleRidesForTest(sample, { lat: 33.81195, lon: -117.92260 });
   assert(sorted[0] && sorted[0].id === "289", "GPS sorting puts the closest attraction first");
+  assert(sorted.every(function (ride) { return ride.name.indexOf("Single Rider") === -1; }), "single-rider rows are hidden from visible results");
   var headliners = api.getVisibleRidesForTest(sample, null, { rideFilter: "headliners" });
   assert(headliners.length === 2 && headliners.every(function (ride) { return ride.id !== "289"; }), "headliner filter narrows ride list");
   var low = api.getVisibleRidesForTest(sample, null, { rideFilter: "low" });
-  assert(low.length === 1 && low[0].id === "289", "low-wait filter narrows ride list");
+  assert(low.length === 2 && low.some(function (ride) { return ride.id === "289"; }) && low.some(function (ride) { return ride.id === "321"; }), "low-wait filter narrows ride list without single-rider rows");
+  var rideOnly = api.getVisibleRidesForTest(sample, null, { rideFilter: "rides" });
+  assert(rideOnly.length === 3 && rideOnly.every(function (ride) { return ride.name !== "Animation Academy"; }), "ride-only filter hides non-ride experiences");
+  var carsLand = api.getVisibleRidesForTest(sample, null, { rideFilter: "land:dca:cars land", parkFilter: "disneyland" });
+  assert(carsLand.length === 1 && carsLand[0].id === "295", "land filter ignores park toggle and hides single-rider waits");
   assert(api.cardinalFromBearing(0) === "N", "bearing cardinal helper works");
 }
 
@@ -202,7 +212,7 @@ assert(manifest.icons && manifest.icons[0] && manifest.icons[0].src === "favicon
 assert(manifest.background_color === "#000000", "manifest background is black");
 assert(manifest.display === "standalone", "manifest uses standalone display");
 
-assert(serviceWorker.indexOf("rayban-disney-nearby-v3") !== -1, "service worker cache name is current");
+assert(serviceWorker.indexOf("rayban-disney-nearby-v4") !== -1, "service worker cache name is current");
 ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./favicon.png"].forEach(function (asset) {
   assert(serviceWorker.indexOf(asset) !== -1, "service worker caches " + asset);
 });

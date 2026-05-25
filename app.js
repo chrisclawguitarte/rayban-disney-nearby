@@ -138,18 +138,81 @@
     "hyperspace mountain"
   ];
 
-  var FILTERS = [
-    { key: "open", label: "OPEN", mode: "NEAREST OPEN", kind: "open" },
-    { key: "low", label: "LOW", mode: "LOW WAITS", kind: "low", maxWait: 30 },
-    { key: "headliners", label: "TOP", mode: "TOP RIDES", kind: "terms", terms: HEADLINER_TERMS },
+  var NON_RIDE_TERMS = [
+    "adventureland treehouse",
+    "animation academy",
+    "bakery tour",
+    "bluey",
+    "disney gallery",
+    "donald's duck pond",
+    "frontierland shootin",
+    "games of pixar pier",
+    "goofy's how-to-play yard",
+    "great moments with mr lincoln",
+    "magical life",
+    "main street cinema",
+    "meet disney princesses",
+    "mickey's house",
+    "minnie's house",
+    "mickey's philharmagic",
+    "opera house",
+    "pirate's lair",
+    "pixar short film",
+    "redwood creek challenge trail",
+    "sleeping beauty castle walkthrough",
+    "sorcerer's workshop",
+    "the disney gallery",
+    "tiki room",
+    "turtle talk",
+    "world of color"
+  ];
+
+  var LAND_FILTERS = [
+    { parkKey: "disneyland", land: "Adventureland", label: "ADV", mode: "LAND ADVENTURE" },
+    { parkKey: "disneyland", land: "Bayou Country", label: "BAY", mode: "LAND BAYOU" },
+    { parkKey: "disneyland", land: "Fantasyland", label: "FANT", mode: "LAND FANTASY" },
+    { parkKey: "disneyland", land: "Frontierland", label: "FRNT", mode: "LAND FRONTIER" },
+    { parkKey: "disneyland", land: "Main Street U.S.A", label: "MAIN", mode: "LAND MAIN ST" },
+    { parkKey: "disneyland", land: "Mickey's Toontown", label: "TOON", mode: "LAND TOONTOWN" },
+    { parkKey: "disneyland", land: "New Orleans Square", label: "NOS", mode: "LAND NEW ORLEANS" },
+    { parkKey: "disneyland", land: "Star Wars: Galaxy's Edge", label: "SWGE", mode: "LAND GALAXY" },
+    { parkKey: "disneyland", land: "Tomorrowland", label: "TMRW", mode: "LAND TOMORROW" },
+    { parkKey: "dca", land: "Avengers Campus", label: "AVGR", mode: "LAND AVENGERS" },
+    { parkKey: "dca", land: "Cars Land", label: "CARS", mode: "LAND CARS" },
+    { parkKey: "dca", land: "Grizzly Peak", label: "GRIZ", mode: "LAND GRIZZLY" },
+    { parkKey: "dca", land: "Hollywood Land", label: "HOLL", mode: "LAND HOLLYWOOD" },
+    { parkKey: "dca", land: "Paradise Gardens Park", label: "PAR", mode: "LAND PARADISE" },
+    { parkKey: "dca", land: "Pixar Pier", label: "PIXR", mode: "LAND PIXAR" },
+    { parkKey: "dca", land: "San Fransokyo Square", label: "SF", mode: "LAND SAN FRAN" }
+  ].map(function (filter) {
+    return {
+      key: "land:" + filter.parkKey + ":" + normalizeSearchText(filter.land),
+      label: filter.label,
+      mode: filter.mode,
+      kind: "land",
+      parkKey: filter.parkKey,
+      land: filter.land,
+      specific: true
+    };
+  });
+
+  var QUICK_RIDE_FILTERS = [
     { key: "rise", label: "RISE", mode: "RIDE RISE", kind: "terms", terms: ["rise of the resistance"], specific: true },
     { key: "racer", label: "RACE", mode: "RIDE RACERS", kind: "terms", terms: ["radiator springs racers"], specific: true },
     { key: "guard", label: "GOTG", mode: "RIDE GOTG", kind: "terms", terms: ["guardians of the galaxy"], specific: true },
     { key: "web", label: "WEB", mode: "RIDE WEB", kind: "terms", terms: ["web slingers"], specific: true },
     { key: "space", label: "SPACE", mode: "RIDE SPACE", kind: "terms", terms: ["space mountain", "hyperspace mountain"], specific: true },
-    { key: "indy", label: "INDY", mode: "RIDE INDY", kind: "terms", terms: ["indiana jones"], specific: true },
-    { key: "all", label: "ALL", mode: "NEAREST ALL", kind: "all" }
+    { key: "indy", label: "INDY", mode: "RIDE INDY", kind: "terms", terms: ["indiana jones"], specific: true }
   ];
+
+  var FILTERS = [
+    { key: "open", label: "OPEN", mode: "NEAREST OPEN", kind: "open" },
+    { key: "rides", label: "RIDE", mode: "RIDES ONLY", kind: "rides" },
+    { key: "low", label: "LOW", mode: "LOW WAITS", kind: "low", maxWait: 30 },
+    { key: "headliners", label: "TOP", mode: "TOP RIDES", kind: "terms", terms: HEADLINER_TERMS }
+  ].concat(QUICK_RIDE_FILTERS).concat(LAND_FILTERS).concat([
+    { key: "all", label: "ALL", mode: "NEAREST ALL", kind: "all" }
+  ]);
 
   var dom = {};
   var state = {
@@ -412,7 +475,9 @@
 
   function normalizeWaits(payload) {
     var rawRides = payload && Array.isArray(payload.rides) ? payload.rides : [];
-    return rawRides.map(function (raw) {
+    return rawRides.filter(function (raw) {
+      return !isSingleRider(raw);
+    }).map(function (raw) {
       var parkKey = raw.park_key || inferParkKey(raw.park);
       var park = PARKS[parkKey] || PARKS.disneyland;
       var coord = resolveCoord(raw, parkKey, park);
@@ -426,9 +491,24 @@
         isOpen: Boolean(raw.is_open),
         waitTime: Number(raw.wait_time || 0),
         lastUpdated: raw.last_updated || null,
+        isRide: isRideAttraction(raw),
         coord: coord.coord,
         coordSource: coord.source
       };
+    });
+  }
+
+  function isSingleRider(raw) {
+    return normalizeSearchText(raw && raw.name).indexOf("single rider") !== -1;
+  }
+
+  function isRideAttraction(raw) {
+    var haystack = normalizeSearchText((raw && raw.name) + " " + (raw && raw.land));
+    if (haystack.indexOf("single rider") !== -1) {
+      return false;
+    }
+    return !NON_RIDE_TERMS.some(function (term) {
+      return haystack.indexOf(normalizeSearchText(term)) !== -1;
     });
   }
 
@@ -584,6 +664,12 @@
     }
     if (filter.kind === "low") {
       return ride.isOpen && ride.waitTime <= filter.maxWait;
+    }
+    if (filter.kind === "rides") {
+      return ride.isOpen && ride.isRide;
+    }
+    if (filter.kind === "land") {
+      return ride.isOpen && ride.parkKey === filter.parkKey && normalizeSearchText(ride.land) === normalizeSearchText(filter.land);
     }
     if (filter.kind === "terms") {
       if (!filter.specific && !ride.isOpen) {
