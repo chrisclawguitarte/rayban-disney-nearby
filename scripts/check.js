@@ -143,6 +143,7 @@ assert(html.indexOf('id="ride-list"') !== -1, "ride list is present");
 assert(html.indexOf('id="summary-title"') !== -1, "summary panel is present");
 assert(html.indexOf('data-action="start-gps"') !== -1, "GPS permission control is present");
 assert(html.indexOf('data-action="refresh"') !== -1, "data refresh control is present");
+assert(html.indexOf('data-action="cycle-filter"') !== -1, "D-pad filter control is present");
 assert(html.indexOf('class="focusable control"') !== -1, "focusable controls are present");
 assert(html.indexOf('target="_blank"') === -1 && html.indexOf('target="_top"') === -1, "app UI does not use external navigation targets");
 
@@ -162,6 +163,8 @@ assert(js.indexOf("event.preventDefault()") !== -1, "D-pad key handling prevents
 assert(js.indexOf("localStorage") !== -1, "lightweight localStorage state is present");
 assert(js.indexOf("serviceWorker") !== -1, "service worker registration is present");
 assert(js.indexOf('fetch("./waits.json?ts="') !== -1, "app fetches same-origin wait data");
+assert(js.indexOf("HEADLINER_TERMS") !== -1, "quick headliner filter terms are present");
+assert(js.indexOf("cycleRideFilter") !== -1, "D-pad filter cycling is present");
 assert(js.indexOf("rides.slice(0, 5)") !== -1, "app renders a readable five-ride list");
 assert(js.indexOf("queue-times.com/parks") === -1, "app does not directly fetch Queue-Times from the browser");
 assert(js.indexOf("window.open") === -1, "app does not use popup navigation");
@@ -180,6 +183,10 @@ if (api) {
   };
   var sorted = api.getVisibleRidesForTest(sample, { lat: 33.81195, lon: -117.92260 });
   assert(sorted[0] && sorted[0].id === "289", "GPS sorting puts the closest attraction first");
+  var headliners = api.getVisibleRidesForTest(sample, null, { rideFilter: "headliners" });
+  assert(headliners.length === 2 && headliners.every(function (ride) { return ride.id !== "289"; }), "headliner filter narrows ride list");
+  var low = api.getVisibleRidesForTest(sample, null, { rideFilter: "low" });
+  assert(low.length === 1 && low[0].id === "289", "low-wait filter narrows ride list");
   assert(api.cardinalFromBearing(0) === "N", "bearing cardinal helper works");
 }
 
@@ -195,7 +202,7 @@ assert(manifest.icons && manifest.icons[0] && manifest.icons[0].src === "favicon
 assert(manifest.background_color === "#000000", "manifest background is black");
 assert(manifest.display === "standalone", "manifest uses standalone display");
 
-assert(serviceWorker.indexOf("rayban-disney-nearby-v2") !== -1, "service worker cache name is current");
+assert(serviceWorker.indexOf("rayban-disney-nearby-v3") !== -1, "service worker cache name is current");
 ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./favicon.png"].forEach(function (asset) {
   assert(serviceWorker.indexOf(asset) !== -1, "service worker caches " + asset);
 });

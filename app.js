@@ -5,6 +5,7 @@
   var METERS_TO_FEET = 3.280839895;
   var POSITION_KEY = "raybanDisneyNearby.lastPosition.v1";
   var PARK_KEY = "raybanDisneyNearby.parkFilter.v1";
+  var FILTER_KEY = "raybanDisneyNearby.rideFilter.v1";
   var OPEN_ONLY_KEY = "raybanDisneyNearby.openOnly.v1";
 
   var PARKS = {
@@ -127,6 +128,29 @@
     "dca:San Fransokyo Square": [33.80630, -117.92278]
   };
 
+  var HEADLINER_TERMS = [
+    "rise of the resistance",
+    "radiator springs racers",
+    "guardians of the galaxy",
+    "web slingers",
+    "indiana jones",
+    "space mountain",
+    "hyperspace mountain"
+  ];
+
+  var FILTERS = [
+    { key: "open", label: "OPEN", mode: "NEAREST OPEN", kind: "open" },
+    { key: "low", label: "LOW", mode: "LOW WAITS", kind: "low", maxWait: 30 },
+    { key: "headliners", label: "TOP", mode: "TOP RIDES", kind: "terms", terms: HEADLINER_TERMS },
+    { key: "rise", label: "RISE", mode: "RIDE RISE", kind: "terms", terms: ["rise of the resistance"], specific: true },
+    { key: "racer", label: "RACE", mode: "RIDE RACERS", kind: "terms", terms: ["radiator springs racers"], specific: true },
+    { key: "guard", label: "GOTG", mode: "RIDE GOTG", kind: "terms", terms: ["guardians of the galaxy"], specific: true },
+    { key: "web", label: "WEB", mode: "RIDE WEB", kind: "terms", terms: ["web slingers"], specific: true },
+    { key: "space", label: "SPACE", mode: "RIDE SPACE", kind: "terms", terms: ["space mountain", "hyperspace mountain"], specific: true },
+    { key: "indy", label: "INDY", mode: "RIDE INDY", kind: "terms", terms: ["indiana jones"], specific: true },
+    { key: "all", label: "ALL", mode: "NEAREST ALL", kind: "all" }
+  ];
+
   var dom = {};
   var state = {
     waitData: null,
@@ -135,7 +159,7 @@
     lastPosition: readLastPosition(),
     lastFixAt: 0,
     parkFilter: localStorage.getItem(PARK_KEY) || "both",
-    openOnly: localStorage.getItem(OPEN_ONLY_KEY) !== "false",
+    rideFilter: readInitialFilter(),
     loading: false,
     lastError: ""
   };
@@ -209,9 +233,8 @@
     if (action === "cycle-park") {
       cyclePark();
     }
-    if (action === "toggle-open") {
-      state.openOnly = !state.openOnly;
-      localStorage.setItem(OPEN_ONLY_KEY, String(state.openOnly));
+    if (action === "cycle-filter") {
+      cycleRideFilter();
       render();
     }
   }
@@ -353,6 +376,13 @@
     render();
   }
 
+  function cycleRideFilter() {
+    var index = filterIndex(state.rideFilter);
+    var next = FILTERS[(index + 1) % FILTERS.length];
+    state.rideFilter = next.key;
+    localStorage.setItem(FILTER_KEY, state.rideFilter);
+  }
+
   function loadWaits() {
     state.loading = true;
     state.lastError = "";
@@ -428,14 +458,12 @@
 
   function getVisibleRides() {
     var position = state.lastPosition;
+    var filter = currentFilter();
     var rides = state.rides.filter(function (ride) {
-      if (state.parkFilter !== "both" && ride.parkKey !== state.parkFilter) {
+      if (!filter.specific && state.parkFilter !== "both" && ride.parkKey !== state.parkFilter) {
         return false;
       }
-      if (state.openOnly && !ride.isOpen) {
-        return false;
-      }
-      return true;
+      return rideMatchesFilter(ride, filter);
     });
 
     rides = rides.map(function (ride) {
@@ -475,7 +503,7 @@
     dom.gpsControl.textContent = state.locationWatchId !== null ? "GPS ON" : "GPS";
     dom.syncControl.textContent = state.loading ? "..." : "DATA";
     dom.parkControl.textContent = parkLabel();
-    dom.openControl.textContent = state.openOnly ? "OPEN" : "ALL";
+    dom.openControl.textContent = currentFilter().label;
 
     if (state.lastError) {
       dom.summary.textContent = state.lastError.toUpperCase();
@@ -483,10 +511,8 @@
       dom.summary.textContent = "LOADING WAITS";
     } else if (!state.rides.length) {
       dom.summary.textContent = "NO WAIT DATA";
-    } else if (!state.lastPosition) {
-      dom.summary.textContent = "LOCATION WAITING";
     } else if (top) {
-      dom.summary.textContent = formatDistance(top.distanceMeters) + " TO " + compactName(top.name);
+      dom.summary.textContent = summaryTitle(top);
     } else {
       dom.summary.textContent = "NO MATCHES";
     }
@@ -516,7 +542,7 @@
     return [
       '<article class="ride-card">',
       '<div class="ride-top">',
-      '<div class="ride-name">' + escapeHtml(ride.name) + "</div>",
+      '<div class="ride-name">' + escapeHtml(displayName(ride.name)) + "</div>",
       '<div class="' + waitClass + '">' + escapeHtml(formatWait(ride)) + "</div>",
       "</div>",
       '<div class="ride-meta">',
@@ -529,8 +555,54 @@
   }
 
   function modeLabel() {
-    var filter = state.openOnly ? "NEAREST OPEN" : "NEAREST ALL";
-    return parkLabel() + " " + filter;
+    var filter = currentFilter();
+    if (filter.specific) {
+      return filter.mode;
+    }
+    return parkLabel() + " " + filter.mode;
+  }
+
+  function currentFilter() {
+    return FILTERS[filterIndex(state.rideFilter)];
+  }
+
+  function filterIndex(key) {
+    for (var index = 0; index < FILTERS.length; index += 1) {
+      if (FILTERS[index].key === key) {
+        return index;
+      }
+    }
+    return 0;
+  }
+
+  function rideMatchesFilter(ride, filter) {
+    if (filter.kind === "all") {
+      return true;
+    }
+    if (filter.kind === "open") {
+      return ride.isOpen;
+    }
+    if (filter.kind === "low") {
+      return ride.isOpen && ride.waitTime <= filter.maxWait;
+    }
+    if (filter.kind === "terms") {
+      if (!filter.specific && !ride.isOpen) {
+        return false;
+      }
+      return matchesTerms(ride, filter.terms || []);
+    }
+    return true;
+  }
+
+  function matchesTerms(ride, terms) {
+    var haystack = normalizeSearchText(ride.name + " " + ride.land);
+    return terms.some(function (term) {
+      return haystack.indexOf(normalizeSearchText(term)) !== -1;
+    });
+  }
+
+  function normalizeSearchText(value) {
+    return String(value || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
   }
 
   function parkLabel() {
@@ -563,6 +635,16 @@
     return latest ? "UPDATED " + formatTime(latest) : "UPDATED UNKNOWN";
   }
 
+  function summaryTitle(ride) {
+    if (ride.distanceMeters !== null && ride.distanceMeters !== undefined) {
+      return formatDistance(ride.distanceMeters) + " TO " + compactName(ride.name);
+    }
+    if (currentFilter().key === "open" || currentFilter().key === "all") {
+      return "LOCATION WAITING";
+    }
+    return compactName(ride.name) + " " + formatWait(ride);
+  }
+
   function setStatus(value) {
     if (dom.status) {
       dom.status.textContent = value;
@@ -591,7 +673,7 @@
   }
 
   function compactName(name) {
-    return String(name || "")
+    return displayName(name)
       .replace(/^Pirate's Lair on Tom Sawyer Island$/i, "Pirate's Lair")
       .replace(/^Frontierland\s+/i, "")
       .replace(/\s+-\s+.*$/, "")
@@ -599,6 +681,22 @@
       .replace(/^Star Wars:\s*/i, "")
       .replace(/^The Many Adventures of\s+/i, "")
       .toUpperCase();
+  }
+
+  function displayName(name) {
+    var value = String(name || "");
+    return value
+      .replace(/^Star Wars:\s*Rise of the Resistance$/i, "Rise Resistance")
+      .replace(/^Radiator Springs Racers Single Rider$/i, "Racers Single Rider")
+      .replace(/^Radiator Springs Racers$/i, "Radiator Racers")
+      .replace(/^Guardians of the Galaxy\s+-\s+Mission:\s*BREAKOUT!$/i, "Guardians Mission")
+      .replace(/^Indiana Jones.*Adventure$/i, "Indiana Jones")
+      .replace(/^Pirate's Lair on Tom Sawyer Island$/i, "Pirate's Lair")
+      .replace(/^Frontierland Shootin' Exposition$/i, "Shootin' Exposition")
+      .replace(/^Davy Crockett's Explorer Canoes$/i, "Explorer Canoes")
+      .replace(/^The Little Mermaid\s+-\s+Ariel's Undersea Adventure$/i, "Little Mermaid")
+      .replace(/^WEB SLINGERS:\s*A Spider-Man Adventure Single Rider$/i, "WEB Single Rider")
+      .replace(/^WEB SLINGERS:\s*A Spider-Man Adventure$/i, "WEB SLINGERS");
   }
 
   function formatWait(ride) {
@@ -688,6 +786,17 @@
     } catch (error) {}
   }
 
+  function readInitialFilter() {
+    var saved = localStorage.getItem(FILTER_KEY);
+    if (filterIndex(saved) !== 0 || saved === "open") {
+      return saved;
+    }
+    if (localStorage.getItem(OPEN_ONLY_KEY) === "false") {
+      return "all";
+    }
+    return "open";
+  }
+
   function escapeHtml(value) {
     return String(value)
       .replace(/&/g, "&amp;")
@@ -704,17 +813,27 @@
     bearingDegrees: bearingDegrees,
     cardinalFromBearing: cardinalFromBearing,
     normalizeWaits: normalizeWaits,
-    getVisibleRidesForTest: function (payload, position) {
+    getVisibleRidesForTest: function (payload, position, options) {
       var previousData = state.waitData;
       var previousRides = state.rides;
       var previousPosition = state.lastPosition;
+      var previousPark = state.parkFilter;
+      var previousFilter = state.rideFilter;
       state.waitData = payload;
       state.rides = normalizeWaits(payload);
       state.lastPosition = position || null;
+      if (options && options.parkFilter) {
+        state.parkFilter = options.parkFilter;
+      }
+      if (options && options.rideFilter) {
+        state.rideFilter = options.rideFilter;
+      }
       var result = getVisibleRides();
       state.waitData = previousData;
       state.rides = previousRides;
       state.lastPosition = previousPosition;
+      state.parkFilter = previousPark;
+      state.rideFilter = previousFilter;
       return result;
     }
   };
