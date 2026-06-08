@@ -206,13 +206,16 @@ assert(workflow.indexOf('cron: "*/5 * * * *"') !== -1, "GitHub runner refresh is
 assert(workflow.indexOf("node scripts/refresh-waits.js") !== -1, "GitHub runner regenerates waits.json");
 assert(workflow.indexOf("node scripts/check.js") !== -1, "GitHub runner validates the app bundle");
 assert(workflow.indexOf("actions/deploy-pages@v4") !== -1, "GitHub runner deploys the refreshed Pages artifact");
+assert(js.indexOf("WAIT_REFRESH_INTERVAL_MS = 5 * 60 * 1000") !== -1, "browser refresh interval is five minutes");
+assert(js.indexOf("setInterval(loadWaits, WAIT_REFRESH_INTERVAL_MS)") !== -1, "browser refetches wait data on the five-minute interval");
+assert(js.indexOf("waitsAreStale") !== -1, "browser refreshes stale wait data when reopened");
 
 assert(manifest.name === "Disney Nearby", "manifest name matches app");
 assert(manifest.icons && manifest.icons[0] && manifest.icons[0].src === "favicon.png", "manifest references favicon.png");
 assert(manifest.background_color === "#000000", "manifest background is black");
 assert(manifest.display === "standalone", "manifest uses standalone display");
 
-assert(serviceWorker.indexOf("rayban-disney-nearby-v4") !== -1, "service worker cache name is current");
+assert(serviceWorker.indexOf("rayban-disney-nearby-v5") !== -1, "service worker cache name is current");
 ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./favicon.png"].forEach(function (asset) {
   assert(serviceWorker.indexOf(asset) !== -1, "service worker caches " + asset);
 });

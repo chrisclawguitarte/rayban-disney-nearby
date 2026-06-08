@@ -3,6 +3,7 @@
 
   var METERS_TO_MILES = 0.000621371;
   var METERS_TO_FEET = 3.280839895;
+  var WAIT_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
   var POSITION_KEY = "raybanDisneyNearby.lastPosition.v1";
   var PARK_KEY = "raybanDisneyNearby.parkFilter.v1";
   var FILTER_KEY = "raybanDisneyNearby.rideFilter.v1";
@@ -249,6 +250,7 @@
     focusPreferredControl();
     render();
     loadWaits();
+    scheduleWaitRefresh();
 
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", function () {
@@ -447,6 +449,9 @@
   }
 
   function loadWaits() {
+    if (state.loading) {
+      return Promise.resolve();
+    }
     state.loading = true;
     state.lastError = "";
     setStatus("SYNC");
@@ -471,6 +476,26 @@
         setStatus("DATA ERR");
         render();
       });
+  }
+
+  function scheduleWaitRefresh() {
+    setInterval(loadWaits, WAIT_REFRESH_INTERVAL_MS);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible" && waitsAreStale()) {
+        loadWaits();
+      }
+    });
+  }
+
+  function waitsAreStale() {
+    if (!state.waitData || !state.waitData.generated_at) {
+      return true;
+    }
+    var generatedAt = new Date(state.waitData.generated_at).getTime();
+    if (Number.isNaN(generatedAt)) {
+      return true;
+    }
+    return Date.now() - generatedAt >= WAIT_REFRESH_INTERVAL_MS;
   }
 
   function normalizeWaits(payload) {
