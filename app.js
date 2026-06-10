@@ -3,7 +3,8 @@
 
   var METERS_TO_MILES = 0.000621371;
   var METERS_TO_FEET = 3.280839895;
-  var WAIT_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+  var WAIT_POLL_INTERVAL_MS = 60 * 1000;
+  var WAIT_STALE_AFTER_MS = 90 * 1000;
   var POSITION_KEY = "raybanDisneyNearby.lastPosition.v1";
   var PARK_KEY = "raybanDisneyNearby.parkFilter.v1";
   var FILTER_KEY = "raybanDisneyNearby.rideFilter.v1";
@@ -225,6 +226,7 @@
     parkFilter: localStorage.getItem(PARK_KEY) || "both",
     rideFilter: readInitialFilter(),
     loading: false,
+    lastWaitFetchAt: 0,
     lastError: ""
   };
 
@@ -456,7 +458,13 @@
     state.lastError = "";
     setStatus("SYNC");
     render();
-    return fetch("./waits.json?ts=" + Date.now(), { cache: "no-store" })
+    return fetch("./waits.json?ts=" + Date.now(), {
+      cache: "no-store",
+      headers: {
+        "Cache-Control": "no-cache",
+        "Pragma": "no-cache"
+      }
+    })
       .then(function (response) {
         if (!response.ok) {
           throw new Error("waits.json " + response.status);
@@ -466,6 +474,7 @@
       .then(function (payload) {
         state.waitData = payload;
         state.rides = normalizeWaits(payload);
+        state.lastWaitFetchAt = Date.now();
         state.loading = false;
         setStatus(state.locationWatchId !== null ? "LIVE" : "READY");
         render();
@@ -479,23 +488,35 @@
   }
 
   function scheduleWaitRefresh() {
-    setInterval(loadWaits, WAIT_REFRESH_INTERVAL_MS);
+    setInterval(function () {
+      if (document.visibilityState === "hidden") {
+        return;
+      }
+      loadWaits();
+    }, WAIT_POLL_INTERVAL_MS);
     document.addEventListener("visibilitychange", function () {
       if (document.visibilityState === "visible" && waitsAreStale()) {
         loadWaits();
       }
     });
+    window.addEventListener("focus", function () {
+      if (waitsAreStale()) {
+        loadWaits();
+      }
+    });
+    window.addEventListener("pageshow", function () {
+      if (waitsAreStale()) {
+        loadWaits();
+      }
+    });
+    window.addEventListener("online", loadWaits);
   }
 
   function waitsAreStale() {
-    if (!state.waitData || !state.waitData.generated_at) {
+    if (!state.waitData || !state.lastWaitFetchAt) {
       return true;
     }
-    var generatedAt = new Date(state.waitData.generated_at).getTime();
-    if (Number.isNaN(generatedAt)) {
-      return true;
-    }
-    return Date.now() - generatedAt >= WAIT_REFRESH_INTERVAL_MS;
+    return Date.now() - state.lastWaitFetchAt >= WAIT_STALE_AFTER_MS;
   }
 
   function normalizeWaits(payload) {
@@ -743,7 +764,9 @@
       return state.loading ? "WAIT DATA LOADING" : "NO WAIT DATA";
     }
     var latest = state.waitData.latest_update || state.waitData.generated_at;
-    return latest ? "UPDATED " + formatTime(latest) : "UPDATED UNKNOWN";
+    var sync = state.waitData.generated_at || state.lastWaitFetchAt;
+    var syncAge = sync ? formatAge(sync) : "?";
+    return latest ? "QT " + formatTime(latest) + " SYNC " + syncAge : "UPDATED UNKNOWN";
   }
 
   function summaryTitle(ride) {
@@ -781,6 +804,21 @@
       hour: "numeric",
       minute: "2-digit"
     });
+  }
+
+  function formatAge(value) {
+    var date = typeof value === "number" ? value : new Date(value).getTime();
+    if (Number.isNaN(date)) {
+      return "?";
+    }
+    var seconds = Math.max(0, Math.round((Date.now() - date) / 1000));
+    if (seconds < 60) {
+      return "NOW";
+    }
+    if (seconds < 3600) {
+      return Math.round(seconds / 60) + "M";
+    }
+    return Math.round(seconds / 3600) + "H";
   }
 
   function compactName(name) {
