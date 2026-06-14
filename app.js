@@ -3,8 +3,8 @@
 
   var METERS_TO_MILES = 0.000621371;
   var METERS_TO_FEET = 3.280839895;
-  var WAIT_POLL_INTERVAL_MS = 60 * 1000;
-  var WAIT_STALE_AFTER_MS = 90 * 1000;
+  var WAIT_POLL_INTERVAL_MS = 5 * 60 * 1000;
+  var WAIT_STALE_AFTER_MS = WAIT_POLL_INTERVAL_MS;
   var POSITION_KEY = "raybanDisneyNearby.lastPosition.v1";
   var PARK_KEY = "raybanDisneyNearby.parkFilter.v1";
   var FILTER_KEY = "raybanDisneyNearby.rideFilter.v1";

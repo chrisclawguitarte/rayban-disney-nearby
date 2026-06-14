@@ -206,9 +206,9 @@ assert(workflow.indexOf('cron: "*/5 * * * *"') !== -1, "GitHub runner refresh is
 assert(workflow.indexOf("node scripts/refresh-waits.js") !== -1, "GitHub runner regenerates waits.json");
 assert(workflow.indexOf("node scripts/check.js") !== -1, "GitHub runner validates the app bundle");
 assert(workflow.indexOf("actions/deploy-pages@v4") !== -1, "GitHub runner deploys the refreshed Pages artifact");
-assert(js.indexOf("WAIT_POLL_INTERVAL_MS = 60 * 1000") !== -1, "browser polls wait data every minute");
-assert(js.indexOf("WAIT_STALE_AFTER_MS = 90 * 1000") !== -1, "reopened app treats wait data as stale quickly");
-assert(js.indexOf("setInterval(function ()") !== -1 && js.indexOf("WAIT_POLL_INTERVAL_MS") !== -1, "browser refetches wait data on the one-minute interval");
+assert(js.indexOf("WAIT_POLL_INTERVAL_MS = 5 * 60 * 1000") !== -1, "browser polls wait data every five minutes");
+assert(js.indexOf("WAIT_STALE_AFTER_MS = WAIT_POLL_INTERVAL_MS") !== -1, "reopened app treats wait data as stale on the five-minute cadence");
+assert(js.indexOf("setInterval(function ()") !== -1 && js.indexOf("WAIT_POLL_INTERVAL_MS") !== -1, "browser refetches wait data on the five-minute interval");
 assert(js.indexOf('"Cache-Control": "no-cache"') !== -1, "browser requests wait data without cache reuse");
 assert(js.indexOf("window.addEventListener(\"focus\"") !== -1, "browser refreshes stale wait data on focus");
 assert(js.indexOf("window.addEventListener(\"pageshow\"") !== -1, "browser refreshes stale wait data after page restore");
@@ -219,7 +219,7 @@ assert(manifest.icons && manifest.icons[0] && manifest.icons[0].src === "favicon
 assert(manifest.background_color === "#000000", "manifest background is black");
 assert(manifest.display === "standalone", "manifest uses standalone display");
 
-assert(serviceWorker.indexOf("rayban-disney-nearby-v6") !== -1, "service worker cache name is current");
+assert(serviceWorker.indexOf("rayban-disney-nearby-v7") !== -1, "service worker cache name is current");
 ["./", "./index.html", "./styles.css", "./app.js", "./manifest.webmanifest", "./favicon.png"].forEach(function (asset) {
   assert(serviceWorker.indexOf(asset) !== -1, "service worker caches " + asset);
 });
